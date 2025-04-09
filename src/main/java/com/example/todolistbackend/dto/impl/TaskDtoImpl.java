@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class TaskDtoImpl implements TaskStatus {
-    private int id;
-    private String title;
+    private String id;
     private String description;
     private String status;
     private String createdAt;
