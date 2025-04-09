@@ -43,4 +43,13 @@ public class TaskServiceImpl implements TaskService {
             task.get().setCreatedAt(taskDto.getCreatedAt());
         }
     }
+
+    @Override
+    public void deleteTask(String id) {
+        Optional<TaskEntity> task = taskDao.findById(id);
+        if (task.isEmpty()) {
+            throw new DataPersistException("Task not found");
+        }
+        taskDao.deleteById(id);
+    }
 }
