@@ -30,4 +30,14 @@ public class TaskController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<TaskDtoImpl> getAllTasks() { return taskService.getAllTasks(); }
+
+    @PatchMapping(value = "/{id}")
+    public ResponseEntity<Void> updateTask(@PathVariable("id") String id, @RequestBody TaskDtoImpl taskDto) {
+        try {
+            taskService.updateTask(id, taskDto);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
