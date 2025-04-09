@@ -10,6 +10,8 @@ import com.example.todolistbackend.utill.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TaskServiceImpl implements TaskService {
     @Autowired
@@ -24,5 +26,10 @@ public class TaskServiceImpl implements TaskService {
         if (save == null) {
             throw new DataPersistException("Task not saved");
         }
+    }
+
+    @Override
+    public List<TaskDtoImpl> getAllTasks() {
+        return mapping.toTaskDtoList(taskDao.findAll());
     }
 }
