@@ -15,8 +15,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "tasks")
 public class TaskEntity implements SuperEntity {
     @Id
-    private int id;
-    private String title;
+    private String id;
     private String description;
     private String status;
     private String createdAt;
