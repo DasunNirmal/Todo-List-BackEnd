@@ -4,6 +4,7 @@ import com.example.todolistbackend.dao.TaskDao;
 import com.example.todolistbackend.dto.impl.TaskDtoImpl;
 import com.example.todolistbackend.entity.impl.TaskEntity;
 import com.example.todolistbackend.exeption.DataPersistException;
+import com.example.todolistbackend.exeption.TaskNotFoundException;
 import com.example.todolistbackend.service.TaskService;
 import com.example.todolistbackend.utill.AppUtil;
 import com.example.todolistbackend.utill.Mapping;
@@ -38,9 +39,14 @@ public class TaskServiceImpl implements TaskService {
     public void updateTask(String id, TaskDtoImpl taskDto) {
         Optional<TaskEntity> task = taskDao.findById(id);
         if (task.isPresent()) {
+            TaskEntity taskEntity = task.get();
+            System.out.println("Task found: " + task.get());
             task.get().setDescription(taskDto.getDescription());
             task.get().setStatus(taskDto.getStatus());
-            task.get().setCreatedAt(taskDto.getCreatedAt());
+            task.get().setCreated_at(taskDto.getCreated_at());
+            taskDao.save(taskEntity);
+        } else {
+            throw new TaskNotFoundException("Task not found");
         }
     }
 
@@ -48,7 +54,7 @@ public class TaskServiceImpl implements TaskService {
     public void deleteTask(String id) {
         Optional<TaskEntity> task = taskDao.findById(id);
         if (task.isEmpty()) {
-            throw new DataPersistException("Task not found");
+            throw new TaskNotFoundException("Task not found");
         }
         taskDao.deleteById(id);
     }

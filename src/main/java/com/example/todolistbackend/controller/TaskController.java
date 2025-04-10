@@ -1,6 +1,7 @@
 package com.example.todolistbackend.controller;
 
 import com.example.todolistbackend.dto.impl.TaskDtoImpl;
+import com.example.todolistbackend.exeption.TaskNotFoundException;
 import com.example.todolistbackend.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,8 +36,11 @@ public class TaskController {
     public ResponseEntity<Void> updateTask(@PathVariable("id") String id, @RequestBody TaskDtoImpl taskDto) {
         try {
             taskService.updateTask(id, taskDto);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (TaskNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
